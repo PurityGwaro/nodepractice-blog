@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+ <!--includding a head partial-->
+ <%- include('./partials/head.ejs') %>
+<body>
+    <!--includding a nav partial-->
+    <%- include('./partials/nav.ejs') %>
+    <div class="blogs content">
+        <h2>All Blogs</h2>
+        <!--all of out blogs are gpoing to go in here-->
+        <!--first we check if the length of the blogs is zero or it has content on the backend using an if statement-->
+        <% if (blogs.length > 0){ %>
+           <% blogs.forEach(blog => { %><!--go through each blog and call this callback function that returns a heading and paragraph-->
+            <!--we need to link each blog to a link with its unique id(the route parameter)-->
+            <a class="single" href="/blogs/<%= blog._id %>">
+                <h3 class="title"><%= blog.title %></h3>
+                <p class="snippet"><%= blog.snippet %></p>
+                
+            </a>
+           <% }) %>
+       <% } else { %>
+            <p>There are no blogs to display....</p>
+        <% } %>
+    </div>
+    <!--includding a footer partial-->
+    <%- include('./partials/footer.ejs') %>
+</body>
+</html>

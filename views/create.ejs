@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+ <!--includding a head partial-->
+ <%- include('./partials/head.ejs') %>
+<body>
+    <!--includding a nav partial-->
+    <%- include('./partials/nav.ejs') %>
+    <div class="create-blog content">
+        <form action="/blogs" method="POST"><!--action value is to where we want to send the POST req to-->
+            <label for="title">Blog title:</label>
+            <input type="text" id="title" name="title" required>
+            <label for="snippet">Blog snippet:</label>
+            <input type="text" id="snippet" name="snippet" required>
+            <label for="body">Blog body:</label>
+            <textarea id="body" name="body" required></textarea><!--the name properties will be used to access the form data-->
+            <button>submit</button><!--once the button is clicked, the POST request will be sent to /blogs-->
+        </form>
+    </div>
+    <!--includding a footer partial-->
+    <%- include('./partials/footer.ejs') %>
+</body>
+</html>
