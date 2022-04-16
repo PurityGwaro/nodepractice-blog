@@ -1,6 +1,7 @@
 const express = require('express');
 //set up an express app
 const app = express();
+const path = require('path');
 //require morgan(is a third party middleware used as a logger)
 const morgan = require('morgan');
 //require mongoose
@@ -19,16 +20,18 @@ mongoose.connect(dbURI, {
     useUnifiedTopology: true,
 })//this is an asynchronous task
 
- .then((result)=> app.listen(3000))
- .catch((err)=> console.log(err));
+//  .then((result)=> app.listen(3000))
+//  .catch((err)=> console.log(err));
 
 
 //register view engine
 app.set('view engine', 'ejs');
+app.set('views', 'views');
 
 
 //middleware & static files
-app.use(express.static('public'));
+// app.use(express.static('public'));
+app.use(express.static(path.join(__dirname, 'public')));
 
 //add the middleware for reading the form to post here
 app.use(express.urlencoded({ extended: true }));//takes all the encoded url data that comes along from the form and passes that into an obj that we can use on the req obj
@@ -108,21 +111,21 @@ app.get('/blogs/:id', (req, res)=>{
 });
 
 //handling a delete request
-app.delete('/blogs/:id', (req, res) =>{
+app.delete('/blogs/:id', (req, res) => {
     const id = req.params.id;
 
     Blog.findByIdAndDelete(id)//this is an ajax req
-        .then((result)=>{
+        .then((result) => {
             //shall send back some json to the browser
             res.json({ redirect: '/blogs' })
         })
-        .catch((err)=>{
+        .catch((err) => {
             console.log(err);
         });
 
-})
+});
 
-app.get('/blogs/create', (req, res)=>{
+app.get('/create', (req, res)=>{
     res.render('create', { title: 'Create New Blog' });
 }) 
 
@@ -130,3 +133,4 @@ app.get('/blogs/create', (req, res)=>{
  app.use((req, res)=>{
      res.status(404).render('404', { title: '404' });
  })
+ app.listen(3000);
